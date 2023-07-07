@@ -18,7 +18,7 @@ mongoClient.connect()
 
 
 app.get('/home', (req, res) => {
-    res.send('SAlVE');
+    res.send('AAAAAAAAAAAAHHHHHHHHHHHHH');
 });
 
 app.post('/home', (req, res) => {
