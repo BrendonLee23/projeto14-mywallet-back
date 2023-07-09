@@ -144,7 +144,6 @@ app.post("/nova-transacao/:tipo", async (req, res) => {
                 }
             );
         }
-
         res.status(201).send("Transação registrada com sucesso!")
 
     } catch (err) {
@@ -152,8 +151,23 @@ app.post("/nova-transacao/:tipo", async (req, res) => {
     }
 })
 
+app.get('/home', async (req, res) => {
 
+    const { authorization } = req.header;
+
+    const token = authorization?.replace('Bearer ', '');
+
+    try{
+        const listagemTransacoes = await db.collection("transacoes").findOne({ token: token });
+        if (!listagemTransacoes) return res.send(null)
+        delete listagemTransacoes.userId
+        delete listagemTransacoes._id
+        res.send(listagemTransacoes)
+    } catch(err){
+        return res.status(500).send(err.message);
+    }
+})
 
 const PORT = 5000;
-app.listen(PORT, () => console.log('listening on port ${PORT}'));
+app.listen(PORT, () => console.log(`listening on port ${PORT}`));
 
