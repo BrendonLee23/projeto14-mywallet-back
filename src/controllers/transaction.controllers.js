@@ -8,17 +8,13 @@ export async function creatTransation (req, res){
     const { tipo } = req.params
     
     try {
-        const sessao = await db.collection('sessao').findOne(token);
-        if (!sessao) {
-            return res.sendStatus(401);
-        }
         const transacaoInfos = {
             value: parseFloat(valor.toFixed(2)),
             description: descricao,
             type: tipo,
             registeredAt: dayjs().format('DD/MM')
         }
-        const userId = sessao.idUsuario
+        const userId = req.sessao.idUsuario
         const transacaoDB = await db.collection("transacoes").findOne({userId: userId});
         console.log(transacaoDB)
         if(!transacaoDB) {
@@ -42,7 +38,7 @@ export async function creatTransation (req, res){
 export async function listTransations(req, res){
 
     try{
-        const listagemTransacoes = await db.collection("transacoes").findOne({ token: token });
+        const listagemTransacoes = await db.collection("transacoes").findOne({ userId: req.sessao.idUsuario });
         if (!listagemTransacoes) return res.send(null)
         delete listagemTransacoes.userId
         delete listagemTransacoes._id

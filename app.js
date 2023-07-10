@@ -16,5 +16,5 @@ app.use(router)
 // Liga informações do servidor para escutar requisições
 
 const PORT = 5000;
-app.listen(PORT, () => console.log(`listening on port ${PORT}`));
+app.listen(PORT, () => console.log(`My Wallet API rodando na porta ${PORT}`));
 
