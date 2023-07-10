@@ -1,15 +1,15 @@
 import express from "express";
 import cors from "cors";
 import joi from "joi";
-import { signin, signup } from "./src/controllers/user.js";
-import { creatTransation, listTransations } from "./src/controllers/transaction.js";
+import { signin, signup } from "./src/controllers/user.controllers.js";
+import { creatTransation, listTransations } from "./src/controllers/transaction.controllers.js";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 
-const usuarioSchema = joi.object({
+export const usuarioSchema = joi.object({
 
     nome: joi.string().min(3).required(),
     email: joi.string().email().required(),
@@ -18,14 +18,14 @@ const usuarioSchema = joi.object({
 
 })
 
-const loginSchema = joi.object({
+export const loginSchema = joi.object({
 
     email: joi.string().email().required(),
     senha: joi.string().required()
 
 });
 
-const transacaoSchema = joi.object({
+export const transacaoSchema = joi.object({
 
     tipo: joi.string().valid('entrada', 'saida'),
     valor: joi.number().greater(0).min(3).required(),

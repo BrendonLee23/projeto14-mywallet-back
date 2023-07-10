@@ -1,3 +1,4 @@
+import { transacaoSchema } from "../../app.js";
 import db from "../database/db.js";
 import dayjs from "dayjs";
 
