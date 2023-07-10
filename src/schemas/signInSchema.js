@@ -1,10 +1,8 @@
-import Joi from 'joi';
+import joi from 'joi';
 
-const signInSchema = Joi.object({
+export const loginSchema = joi.object({
 
-    email: Joi.string().email({minDomainSegments: 2, tlds: { allow: ['com', 'net'] }}).required(),
-    password: Joi.string().required()
+    email: joi.string().email().required(),
+    senha: joi.string().required()
 
 });
-
-export default signInSchema;

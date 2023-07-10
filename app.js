@@ -1,42 +1,19 @@
 import express from "express";
 import cors from "cors";
-import joi from "joi";
-import { signin, signup } from "./src/controllers/user.controllers.js";
-import { creatTransation, listTransations } from "./src/controllers/transaction.controllers.js";
+import router from "./src/routes/index.routes.js";
+
+// criação do App
 
 const app = express();
+
+// Configurações
+
 app.use(cors());
 app.use(express.json());
+app.use(router)
 
 
-export const usuarioSchema = joi.object({
-
-    nome: joi.string().min(3).required(),
-    email: joi.string().email().required(),
-    senha: joi.string().min(3).required(),
-    confirm: joi.string().min(3).required()
-
-})
-
-export const loginSchema = joi.object({
-
-    email: joi.string().email().required(),
-    senha: joi.string().required()
-
-});
-
-export const transacaoSchema = joi.object({
-
-    tipo: joi.string().valid('entrada', 'saida'),
-    valor: joi.number().greater(0).min(3).required(),
-    descricao: joi.string().required()
-
-});
-
-app.post("/cadastro", signup);
-app.post("/", signin);
-app.post("/nova-transacao/:tipo", creatTransation)
-app.get('/home', listTransations)
+// Liga informações do servidor para escutar requisições
 
 const PORT = 5000;
 app.listen(PORT, () => console.log(`listening on port ${PORT}`));

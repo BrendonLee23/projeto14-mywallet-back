@@ -1,6 +1,7 @@
-import { transacaoSchema } from "../../app.js";
+
 import db from "../database/db.js";
 import dayjs from "dayjs";
+import { transacaoSchema } from "../schemas/transationSchma.js";
 
 
 export async function creatTransation (req, res){
