@@ -41,11 +41,13 @@ export async function listTransations(req, res){
 
     try{
         const listagemTransacoes = await db.collection("transacoes").findOne({ userId: req.sessao.idUsuario });
+        console.log(listagemTransacoes)
         if (!listagemTransacoes) return res.send(null)
         delete listagemTransacoes.userId
         delete listagemTransacoes._id
-        const listaFinal = listagemTransacoes.reverse()
-        res.send(listaFinal)
+        const listaFinal = listagemTransacoes.listaTransacoes.reverse()
+        console.log(listaFinal)
+        res.send({total: listagemTransacoes.total, listaFinal})
     } catch(err){
         return res.status(500).send(err.message);
     }
