@@ -44,7 +44,8 @@ export async function listTransations(req, res){
         if (!listagemTransacoes) return res.send(null)
         delete listagemTransacoes.userId
         delete listagemTransacoes._id
-        res.send(listagemTransacoes)
+        const listaFinal = listagemTransacoes.reverse()
+        res.send(listaFinal)
     } catch(err){
         return res.status(500).send(err.message);
     }
