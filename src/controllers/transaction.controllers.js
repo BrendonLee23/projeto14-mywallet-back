@@ -7,9 +7,11 @@ export async function creatTransation (req, res){
     const { valor, descricao } = req.body;
     const { tipo } = req.params
     
+    const valorConvertido = parseFloat(valor)
+
     try {
         const transacaoInfos = {
-            value: parseFloat(valor.toFixed(2)),
+            value: valorConvertido.toFixed(2),
             description: descricao,
             type: tipo,
             registeredAt: dayjs().format('DD/MM')
@@ -18,11 +20,11 @@ export async function creatTransation (req, res){
         const transacaoDB = await db.collection("transacoes").findOne({userId: userId});
         console.log(transacaoDB)
         if(!transacaoDB) {
-            const total = transacaoInfos.type === 'entrada' ? transacaoInfos.value : -transacaoInfos.value;
+            const total = transacaoInfos.type === 'entrada' ? Number(transacaoInfos.value) : -transacaoInfos.value;
             await db.collection("transacoes").insertOne({userId: userId, total: total, listaTransacoes: [transacaoInfos]});
         }
         else{
-            const total = transacaoInfos.type === 'entrada' ? transacaoDB.total + transacaoInfos.value : transacaoDB.total - transacaoInfos.value;
+            const total = transacaoInfos.type === 'entrada' ? transacaoDB.total + Number(transacaoInfos.value) : transacaoDB.total - Number(transacaoInfos.value);
             await db.collection("transacoes").updateOne({userId: userId},
                 {
                     $set : {total: total}, $push: {listaTransacoes: transacaoInfos}

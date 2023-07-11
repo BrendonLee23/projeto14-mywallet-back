@@ -9,7 +9,7 @@ export async function signup(req, res){
         const usuario = await db.collection("usuarios").findOne({ email })
         if (usuario) return res.status(409).send("Email ja cadastrado!")
         const hash = bcrypt.hashSync(senha, 10)
-        await db.collection("usuarios").insertOne({ nome, email, senha: hash });
+        await db.collection("usuarios").insertOne({ nome, email, senha: hash, total:0 });
         res.status(201).send("Usuário registrado com sucesso!")
     } catch (err) {
         res.status(500).send(err.message);
